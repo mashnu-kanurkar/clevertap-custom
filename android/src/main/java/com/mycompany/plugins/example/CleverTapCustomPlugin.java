@@ -7,6 +7,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import androidx.annotation.RequiresApi;
@@ -110,6 +111,16 @@ public class CleverTapCustomPlugin extends Plugin implements CTPushNotificationL
     }
 
   }
+
+  @Override
+  protected void handleOnNewIntent(Intent intent) {
+    super.handleOnNewIntent(intent);
+    Log.d("CleverTapCustomPlugin", "handleOnNewIntent called");
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+      cleverTapAPI.pushNotificationClickedEvent(intent.getExtras());
+    }
+  }
+
 
   @Override
   public void onNotificationClickedPayloadReceived(HashMap<String, Object> hashMap) {
